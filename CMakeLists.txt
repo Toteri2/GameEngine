@@ -780,12 +780,26 @@ endif()
 
 include(GNUInstallDirs)
 
-install(TARGETS ${INSTALL_TARGETS}
+# Install Core (Exported for find_package)
+install(TARGETS game_engine_core
     EXPORT GameEngineTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+
+# Install Modular Systems (Not exported to avoid dependency conflicts)
+# These will still be built and available when using add_subdirectory or CPM
+set(SYSTEM_TARGETS ${INSTALL_TARGETS})
+list(REMOVE_ITEM SYSTEM_TARGETS game_engine_core)
+
+if(SYSTEM_TARGETS)
+    install(TARGETS ${SYSTEM_TARGETS}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+endif()
 
 install(DIRECTORY include/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
