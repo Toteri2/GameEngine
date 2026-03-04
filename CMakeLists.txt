@@ -555,11 +555,12 @@ if(GAMEENGINE_BUILD_INPUT_SYSTEM)
     # Link SDL3 for input polling
     if(DEFINED sdl3_SOURCE_DIR)
         target_include_directories(game_engine_input_system PRIVATE
-            ${sdl3_SOURCE_DIR}/include
+            $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
         )
         target_link_libraries(game_engine_input_system PRIVATE
             GameEngine::core
-            SDL3::SDL3
+            $<BUILD_INTERFACE:SDL3::SDL3>
+            $<INSTALL_INTERFACE:SDL3::SDL3>
         )
     else()
         find_package(SDL3 REQUIRED)
@@ -658,11 +659,12 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
 
     if(DEFINED sdl3_SOURCE_DIR)
         target_include_directories(game_engine_render_system PRIVATE
-            ${sdl3_SOURCE_DIR}/include
+            $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
         )
         target_link_libraries(game_engine_render_system PRIVATE
             GameEngine::core
-            SDL3::SDL3
+            $<BUILD_INTERFACE:SDL3::SDL3>
+            $<INSTALL_INTERFACE:SDL3::SDL3>
         )
     else()
         find_package(SDL3 REQUIRED)
@@ -675,9 +677,12 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
     # Link SDL3_image
     if(DEFINED sdl3_image_SOURCE_DIR)
         target_include_directories(game_engine_render_system PRIVATE
-            ${sdl3_image_SOURCE_DIR}/include
+            $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
         )
-        target_link_libraries(game_engine_render_system PRIVATE SDL3_image::SDL3_image)
+        target_link_libraries(game_engine_render_system PRIVATE 
+            $<BUILD_INTERFACE:SDL3_image::SDL3_image>
+            $<INSTALL_INTERFACE:SDL3_image::SDL3_image>
+        )
     else()
         find_package(SDL3_image REQUIRED)
         target_link_libraries(game_engine_render_system PRIVATE SDL3_image::SDL3_image)
@@ -686,9 +691,12 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
     # Link SDL3_ttf
     if(DEFINED sdl3_ttf_SOURCE_DIR)
         target_include_directories(game_engine_render_system PRIVATE
-            ${sdl3_ttf_SOURCE_DIR}/include
+            $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
         )
-        target_link_libraries(game_engine_render_system PRIVATE SDL3_ttf::SDL3_ttf)
+        target_link_libraries(game_engine_render_system PRIVATE 
+            $<BUILD_INTERFACE:SDL3_ttf::SDL3_ttf>
+            $<INSTALL_INTERFACE:SDL3_ttf::SDL3_ttf>
+        )
     else()
         find_package(SDL3_ttf REQUIRED)
         target_link_libraries(game_engine_render_system PRIVATE SDL3_ttf::SDL3_ttf)
@@ -697,19 +705,25 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
     # Link SDL3_gfx (for primitives like circles)
     if(TARGET SDL3_gfx_Shared)
         target_include_directories(game_engine_render_system PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx>
         )
-        target_link_libraries(game_engine_render_system PRIVATE SDL3_gfx_Shared)
+        target_link_libraries(game_engine_render_system PRIVATE 
+            $<BUILD_INTERFACE:SDL3_gfx_Shared>
+        )
     elseif(TARGET SDL3_gfx_Static)
         target_include_directories(game_engine_render_system PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx>
         )
-        target_link_libraries(game_engine_render_system PRIVATE SDL3_gfx_Static)
+        target_link_libraries(game_engine_render_system PRIVATE 
+            $<BUILD_INTERFACE:SDL3_gfx_Static>
+        )
     elseif(TARGET SDL3_gfx)
         target_include_directories(game_engine_render_system PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/SDL3_gfx>
         )
-        target_link_libraries(game_engine_render_system PRIVATE SDL3_gfx)
+        target_link_libraries(game_engine_render_system PRIVATE 
+            $<BUILD_INTERFACE:SDL3_gfx>
+        )
     endif()
 
     # Link logger if available
