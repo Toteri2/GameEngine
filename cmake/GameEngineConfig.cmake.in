@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find mandatory dependencies
+if(GAMEENGINE_BUILD_INPUT_SYSTEM OR GAMEENGINE_BUILD_RENDER_SYSTEM)
+    find_dependency(SDL3)
+endif()
+
+if(GAMEENGINE_BUILD_RENDER_SYSTEM)
+    find_dependency(SDL3_image)
+    find_dependency(SDL3_ttf)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/GameEngineTargets.cmake")
+
+check_required_components(GameEngine)
