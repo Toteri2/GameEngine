@@ -453,8 +453,9 @@ if(GAMEENGINE_BUILD_SCRIPTING)
     )
 
     target_link_libraries(game_engine_scripting
-        PRIVATE
+        PUBLIC
         LuaBridge
+        PRIVATE
         ${LUA_LIBRARIES}
     )
 
