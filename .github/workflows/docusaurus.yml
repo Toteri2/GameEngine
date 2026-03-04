@@ -1,0 +1,63 @@
+name: Deploy Docusaurus to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: build-and-deploy-docusaurus
+    if:  ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ${{ inputs.runner }}
+    container:
+      image: ubuntu:latest
+
+    steps:
+      - name: Install dependencies
+        run: |
+            apt-get update -y
+            apt-get install -y git
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          clean: true
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install node dependencies
+        working-directory: docusaurus
+        run: npm install
+
+      - name: Build Docusaurus site
+        working-directory: docusaurus
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docusaurus/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

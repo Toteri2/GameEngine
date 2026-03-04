@@ -1,0 +1,3 @@
+[submodule "external/SDL3_gfx"]
+	path = external/SDL3_gfx
+	url = https://github.com/sabdul-khabir/SDL3_gfx

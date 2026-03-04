@@ -1,0 +1,14 @@
+---
+Checks: >
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  bugprone-*,
+  clang-analyzer-*,
+  performance-*,
+  readability-*,
+  misc-*,
+  -readability-braces-around-statements,
+  -readability-magic-numbers,
+  -modernize-avoid-bind
+FormatStyle: file
+...

@@ -1,0 +1,120 @@
+#==============================================================================#
+# EPITECH CLANG-FORMAT (credit to Ludovic Fernandez, modified by JacquesHumule)#
+#==============================================================================#
+#BasedOnStyle: Mozilla
+Language: Cpp
+
+Standard: c++20
+
+# F3
+ColumnLimit: 99
+ReflowComments: true
+
+# L3
+AlignAfterOpenBracket: DontAlign
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+IndentWrappedFunctionNames: false
+BinPackArguments: true
+BinPackParameters: true
+AlignOperands: DontAlign #AlignAfterOperator
+AlwaysBreakBeforeMultilineStrings: true
+
+# L4
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: true
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+#BreakAfterReturnType: Automatic
+PenaltyReturnTypeOnItsOwnLine: 1000000000
+
+# L2
+TabWidth: 4
+IndentWidth: 4
+ContinuationIndentWidth: 4
+PPIndentWidth: 4
+UseTab: Never
+
+# G3
+IndentPPDirectives: BeforeHash
+
+# L3
+AlignConsecutiveAssignments:
+  Enabled: false
+AlignConsecutiveDeclarations:
+  Enabled: false
+Cpp11BracedListStyle: true
+PointerAlignment: Right
+SpacesInCStyleCastParentheses: false
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesInAngles: Never
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInContainerLiterals: false
+SpaceAfterTemplateKeyword: false
+IndentCaseLabels: true
+NamespaceIndentation: All
+
+# L1
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+
+# G3
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# G2
+MaxEmptyLinesToKeep: 1
+
+# Make macro declarations more eligible. Those won't trigger misplaced spaces.
+AlignConsecutiveMacros: Consecutive
+
+# Align backslashes when escaping linebreaks
+AlignEscapedNewlines: Left
+
+# Align trailing comments (//)
+AlignTrailingComments: true
+
+# Allow breaking string litterals when wrapping
+BreakStringLiterals: true
+
+# When wrapping, keep '=' on the top right, but put operators on the new line
+BreakBeforeBinaryOperators: NonAssignment
+
+#
+BreakBeforeTernaryOperators: true
+
+# Include sorting and priority - lowest priority gets sorted at the bottom of the list
+SortIncludes: CaseSensitive
+# IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^"[[:alnum:]./]+"'
+    Priority: 1
+  - Regex: "^<[[:alnum:]./]+>" # System/Standard libs
+    Priority: 2
+
+# Sort 'using' declarations
+SortUsingDeclarations: true
+
+StatementMacros: [MyTest, MyAdvancedTest]

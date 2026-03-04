@@ -1,0 +1,78 @@
+name: Engine CI
+
+on:
+  push:
+    branches:
+      - prod
+      - main
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - prod
+      - main
+
+jobs:
+  test-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build build-essential libx11-dev libxext-dev libxrandr-dev libxi-dev libgl1-mesa-dev libfreetype6-dev git
+
+      - name: Configure & Build Engine
+        run: |
+          # Build with all systems enabled to verify compilation
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGAMEENGINE_BUILD_RENDER_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_NETWORK=ON \
+            -DGAMEENGINE_BUILD_INPUT_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_AUDIO=ON \
+            -DGAMEENGINE_BUILD_TIME=ON \
+            -DGAMEENGINE_BUILD_LOGGER=ON \
+            -DGAMEENGINE_BUILD_LOGGER_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_PHYSICS_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_LEVEL_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_SCRIPTING=ON \
+            -DGAMEENGINE_BUILD_SCRIPTING_SYSTEM=ON \
+            -DGAMEENGINE_BUILD_CONSOLE_SYSTEM=ON
+          cmake --build build --parallel
+
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Apt dependencies
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz git zip
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Generate documentation
+        run: doxygen Doxyfile
+
+      - name: Create documentation artifact
+        run: zip -r documentation docs
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: documentation.zip
+
+  deploy-docusaurus:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    needs: [generate-docs]
+    uses: ./.github/workflows/docusaurus.yml
+    with:
+      runner: ubuntu-latest
