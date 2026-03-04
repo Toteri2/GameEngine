@@ -618,20 +618,28 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
     endif()
 
     if(TARGET SDL3_gfx_Static)
-        set_target_properties(SDL3_gfx_Static PROPERTIES
-            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        )
+        if(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Static PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+        endif()
+        if(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Static PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        endif()
+        if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Static PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+        endif()
         target_link_libraries(SDL3_gfx_Static PUBLIC SDL3::SDL3)
     endif()
 
     if(TARGET SDL3_gfx_Shared)
-        set_target_properties(SDL3_gfx_Shared PROPERTIES
-            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        )
+        if(CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Shared PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+        endif()
+        if(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Shared PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        endif()
+        if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+            set_target_properties(SDL3_gfx_Shared PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+        endif()
         target_link_libraries(SDL3_gfx_Shared PUBLIC SDL3::SDL3)
     endif()
     add_library(game_engine_render_system STATIC
