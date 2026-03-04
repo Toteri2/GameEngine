@@ -193,6 +193,7 @@ if(GAMEENGINE_BUILD_NETWORK)
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PRIVATE
         $<BUILD_INTERFACE:${Boost.Asio_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${Boost.System_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${Boost.Config_SOURCE_DIR}/include>
@@ -267,10 +268,19 @@ if(GAMEENGINE_BUILD_AUDIO)
         src/Utils/Audio/AudioManager.cpp
         "${CMAKE_CURRENT_BINARY_DIR}/miniaudio_impl.c"
     )
+
+    # Suppress warnings for third-party miniaudio implementation
+    if(MSVC)
+        target_compile_options(game_engine_audio PRIVATE /W0)
+    else()
+        target_compile_options(game_engine_audio PRIVATE -w)
+    endif()
+
     target_include_directories(game_engine_audio
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PRIVATE
         $<BUILD_INTERFACE:${miniaudio_SOURCE_DIR}>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -436,9 +446,10 @@ if(GAMEENGINE_BUILD_SCRIPTING)
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PUBLIC
+        ${LUA_INCLUDE_DIR}
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${LUA_INCLUDE_DIR}
     )
 
     target_link_libraries(game_engine_scripting
@@ -506,6 +517,7 @@ if(GAMEENGINE_BUILD_PHYSICS_SYSTEM)
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PRIVATE
         $<BUILD_INTERFACE:${box2d_SOURCE_DIR}/include>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -548,6 +560,8 @@ if(GAMEENGINE_BUILD_INPUT_SYSTEM)
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PRIVATE
+        $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
@@ -653,6 +667,8 @@ if(GAMEENGINE_BUILD_RENDER_SYSTEM)
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        SYSTEM PRIVATE
+        $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
