@@ -442,7 +442,7 @@ if(GAMEENGINE_BUILD_SCRIPTING)
     )
 
     target_link_libraries(game_engine_scripting
-        PUBLIC
+        PRIVATE
         LuaBridge
         ${LUA_LIBRARIES}
     )
@@ -511,7 +511,7 @@ if(GAMEENGINE_BUILD_PHYSICS_SYSTEM)
         ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
 
-    target_link_libraries(game_engine_physics_system PUBLIC
+    target_link_libraries(game_engine_physics_system PRIVATE
         GameEngine::core
         box2d
     )
